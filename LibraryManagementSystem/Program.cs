@@ -79,9 +79,19 @@ internal class Program
 
         Console.Write("Enter Title: ");
         string title = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            Console.WriteLine("Title cannot be empty.");
+            return;
+        }
 
         Console.Write("Enter Author: ");
         string author = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(author))
+        {
+            Console.WriteLine("Author cannot be empty.");
+            return;
+        }
 
         var book = new Book(id, title, author);
         books.Add(book);
@@ -100,7 +110,7 @@ internal class Program
 
         foreach (var book in books)
         {
-            Console.WriteLine($"ID: {book.BookId,-5} Title: {book.Title,-20} Author: {book.Author,-20} Available: {(book.IsAvailable ? "Yes" : "No"),-10}");
+            PrintBookDetails(book);
         }
     }
 
@@ -113,7 +123,7 @@ internal class Program
             {
                 if (book.BookId == id)
                 {
-                    Console.WriteLine($"ID: {book.BookId,-5} Title: {book.Title,-20} Author: {book.Author,-20} Available: {(book.IsAvailable ? "Yes" : "No"),-10}");
+                    PrintBookDetails(book);
                     return;
                 }
             }
@@ -203,7 +213,7 @@ internal class Program
         {
             if (book.Title.IndexOf(input, StringComparison.OrdinalIgnoreCase) >= 0 || book.Author.IndexOf(input, StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                Console.WriteLine($"ID: {book.BookId,-5} Title: {book.Title,-20} Author: {book.Author,-20} Available: {(book.IsAvailable ? "Yes" : "No"),-10}");
+                PrintBookDetails(book);
                 found = true;
             }
         }
@@ -222,7 +232,7 @@ internal class Program
         {
             if (book.IsAvailable)
             {
-                Console.WriteLine($"ID: {book.BookId,-5} Title: {book.Title,-20} Author: {book.Author,-20} Available: {(book.IsAvailable ? "Yes" : "No"),-10}");
+                PrintBookDetails(book);
                 foundAvailable = true;
             }
         }
@@ -242,7 +252,7 @@ internal class Program
         {
             if (!book.IsAvailable)
             {
-                Console.WriteLine($"ID: {book.BookId,-5} Title: {book.Title,-20} Author: {book.Author,-20} Available: {(book.IsAvailable ? "Yes" : "No"),-10}");
+                PrintBookDetails(book);
                 foundBorrowed = true;
             }
         }
@@ -271,5 +281,10 @@ internal class Program
         }
         Console.WriteLine($"Total available books: {availableCount}");
         Console.WriteLine($"Total borrowed books: {borrowedCount}");
+    }
+
+    static void PrintBookDetails(Book book)
+    {
+        Console.WriteLine($"ID: {book.BookId,-5} Title: {book.Title,-20} Author: {book.Author,-20} Available: {(book.IsAvailable ? "Yes" : "No"),-10}");
     }
 }
